@@ -1,6 +1,5 @@
-from misc import bot
+from misc import bot, db_service
 from Models.Locations import LocationCreateModel, LocationUpdateModel
-from Services.GoogleSheetService import GoogleSheetService
 import constants
 
 
@@ -8,7 +7,7 @@ import constants
 def location_handler(message):
     if message.location is not None:
         bot.send_message(message.chat.id, "Hold tight, I'm recording your location")
-        responce = GoogleSheetService().add_new_location(LocationCreateModel(
+        responce = db_service.add_new_location(LocationCreateModel(
             chat_link=constants.telegram_base_link + str(message.chat.username),
             lat=message.location.latitude,
             long=message.location.longitude
@@ -33,7 +32,7 @@ def comment_handler(message):
         return
 
     bot.send_message(message.chat.id, "Please wait a while, I'm recording your comment.")
-    is_recorded = GoogleSheetService().add_comment_for_last_location(LocationUpdateModel(
+    is_recorded = db_service.add_comment_for_last_location(LocationUpdateModel(
         chat_link=constants.telegram_base_link+message.chat.username,
         comment=str(message.text)
     ))

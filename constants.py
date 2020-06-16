@@ -1,5 +1,5 @@
 import sys
-
+import os
 
 class _const:
     class ConstError(TypeError):
@@ -16,13 +16,23 @@ class _const:
         raise NameError(item)
 
 _const = _const()
-_const.telegram_token = ''
+_const.telegram_token = os.environ.get('TELEGRAM_TOKEN')
 _const.telegram_base_link = 'https://t.me/'
 
-_const.google_token_file = r'C:\Users\user\PycharmProjects\okolobot\token.pickle'
-_const.google_credentials_path = r'C:\Users\user\PycharmProjects\okolobot\credentials.json'
+_const.google_token_file = r'token.json'
+# create token.json
+token = os.environ.get('GOOGLE_TOKEN', '')
+if token != '':
+    with open(_const.google_token_file, 'w') as f:
+        f.writelines(token)
+
+_const.google_credentials_path = r'credentials.json'
+# Create credentials.json
+creds = os.environ.get('GOOGLE_CREDENTIALS_JSON')
+with open(_const.google_credentials_path, 'w') as f:
+    f.writelines(creds)
 _const.google_client_id = '1245254582:AAEIi4tOehSlfSe1tBmC5MF_O3n8KA3Nn8o'
-_const.client_secret = ''
+_const.client_secret = os.environ.get('GOOGLE_SECRET')
 _const.google_sheet_id = '1E8KubS7U05pVPtmZ7AtSWlAAEQgtINaqy4RtNDoKemE'
 
 sys.modules[__name__] = _const

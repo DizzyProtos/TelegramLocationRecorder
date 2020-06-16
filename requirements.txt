@@ -23,3 +23,4 @@ six==1.15.0
 uritemplate==3.0.1
 urllib3==1.25.9
 wincertstore==0.2
+jsonpickle==1.4.1
