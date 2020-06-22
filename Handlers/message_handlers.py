@@ -1,4 +1,4 @@
-from misc import bot, db_service
+from misc import bot, db_service, map_service
 from Models.Locations import LocationCreateModel, LocationUpdateModel
 import constants
 
@@ -7,12 +7,14 @@ import constants
 def location_handler(message):
     if message.location is not None:
         bot.send_message(message.chat.id, "Hold tight, I'm recording your location")
-        responce = db_service.add_new_location(LocationCreateModel(
+        new_location = LocationCreateModel(
             chat_link=constants.telegram_base_link + str(message.chat.username),
             lat=message.location.latitude,
             long=message.location.longitude
-        ))
+        )
+        responce = db_service.add_new_location(new_location)
         if responce.is_succesful:
+            map_service.add_location_to_map(new_location)
             start_second_step(message)
         else:
             bot.send_message(message.chat.id, "Sorry, something went wrong. Please try again.")
