@@ -3,6 +3,7 @@ import Handlers
 import tornado.ioloop
 import tornado.web
 import json
+import constants
 
 
 class LocationsHandler(tornado.web.RequestHandler):
@@ -32,6 +33,6 @@ def make_app():
 
 if __name__ == '__main__':
     app = make_app()
-    app.listen(8888)
+    app.listen(constants.app_port)
     tornado.ioloop.IOLoop.current().start()
     bot.polling()
