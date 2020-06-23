@@ -24,3 +24,15 @@ class LocationUpdateModel:
                  comment: str):
         self.chat_link = chat_link
         self.comment = comment
+
+
+class LocationDisplayModel:
+    def __init__(self,
+                 chat_link: str,
+                 lat: float,
+                 long: float,
+                 comment: str):
+        self.chat_link = chat_link
+        self.lat = lat
+        self.long = long
+        self.comment = comment

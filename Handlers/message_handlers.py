@@ -1,4 +1,4 @@
-from misc import bot, db_service, map_service
+from misc import bot, db_service
 from Models.Locations import LocationCreateModel, LocationUpdateModel
 import constants
 
@@ -14,7 +14,6 @@ def location_handler(message):
         )
         responce = db_service.add_new_location(new_location)
         if responce.is_succesful:
-            map_service.add_location_to_map(new_location)
             start_second_step(message)
         else:
             bot.send_message(message.chat.id, "Sorry, something went wrong. Please try again.")

@@ -4,7 +4,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import constants
-from Models.Locations import LocationCreateModel, LocationResponceModel, LocationUpdateModel
+from Models.Locations import LocationCreateModel, LocationResponceModel, LocationUpdateModel, LocationDisplayModel
 import jsonpickle
 
 
@@ -80,3 +80,21 @@ class GoogleSheetService:
         )
         responce = request.execute()
         return True
+
+    def get_all_locations(self):
+        request = self.service.spreadsheets().values().get(
+            spreadsheetId=constants.google_sheet_id, range=self.all_data_range
+        )
+        rows = request.execute()
+        all_locations = []
+        for i, row in enumerate(rows['values'][1:]):
+            if len(row) < 4:
+                continue
+            location = LocationDisplayModel(
+                chat_link=str(row[0]),
+                lat=float(row[1]),
+                long=float(row[2]),
+                comment=str(row[3])
+            )
+            all_locations.append(location)
+        return all_locations
