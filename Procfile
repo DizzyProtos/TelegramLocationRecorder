@@ -1,1 +1,1 @@
-bot: python3 main.py
+web: python main.py --port=$PORT

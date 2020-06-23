@@ -36,7 +36,4 @@ _const.google_client_id = '1245254582:AAEIi4tOehSlfSe1tBmC5MF_O3n8KA3Nn8o'
 _const.client_secret = os.environ.get('GOOGLE_SECRET')
 _const.google_sheet_id = '1E8KubS7U05pVPtmZ7AtSWlAAEQgtINaqy4RtNDoKemE'
 
-_const.app_port = os.environ.get('PORT', 5000)
-
-
 sys.modules[__name__] = _const

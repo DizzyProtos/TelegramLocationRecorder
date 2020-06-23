@@ -63,8 +63,8 @@
         $(document).ready(function() {
             createMap();
             // Show spinner
-            fetch('http://localhost:80/locations', {
-                method: 'GET'
+            fetch('http://localhost:{{ port }}/locations', {
+                method: 'GET',
             }).then(response => {
                 response.json().then(data => addMarkers(data))
             }, err => {

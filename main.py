@@ -1,9 +1,15 @@
-from misc import bot, db_service
-import Handlers
+import os.path
+import tornado.escape
+import tornado.httpserver
 import tornado.ioloop
 import tornado.web
+from misc import bot, db_service
+import Handlers
 import json
 import constants
+import tornado.options
+from tornado.options import define
+define("port", default=5000, help="run on the given port", type=int)
 
 
 class LocationsHandler(tornado.web.RequestHandler):
@@ -18,21 +24,31 @@ class LocationsHandler(tornado.web.RequestHandler):
         dicts_locations = [x.__dict__ for x in all_locations]
         self.write(json.dumps(dicts_locations))
 
+    def options(self):
+        self.set_status(204)
+        self.finish()
+
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render('./templates/index.html')
+        port = tornado.options.options.port
+        self.render('./templates/index.html', port=port)
 
 
-def make_app():
-    return tornado.web.Application([
-        (r'/', MainHandler),
-        (r'/locations', LocationsHandler)
-    ])
+# application settings and handle mapping info
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r"/", MainHandler),
+            (r"/locations", LocationsHandler),
+        ]
+        settings = dict()
+        tornado.web.Application.__init__(self, handlers, **settings)
 
 
 if __name__ == '__main__':
-    app = make_app()
-    app.listen(constants.app_port)
-    tornado.ioloop.IOLoop.current().start()
-    bot.polling()
+    tornado.options.parse_command_line()
+    http_server = tornado.httpserver.HTTPServer(Application())
+    http_server.listen(tornado.options.options.port)
+    tornado.ioloop.IOLoop.instance().start()
+    # bot.polling()
