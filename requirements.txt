@@ -24,3 +24,4 @@ uritemplate==3.0.1
 urllib3==1.25.9
 wincertstore==0.2
 jsonpickle==1.4.1
+tornado==6.0.4
