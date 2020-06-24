@@ -63,7 +63,7 @@
         $(document).ready(function() {
             createMap();
             // Show spinner
-            fetch('http://localhost:{{ port }}/locations', {
+            fetch('https://normusiktelegrambot.herokuapp.com/locations', {
                 method: 'GET',
             }).then(response => {
                 response.json().then(data => addMarkers(data))

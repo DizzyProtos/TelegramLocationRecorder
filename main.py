@@ -32,7 +32,7 @@ class LocationsHandler(tornado.web.RequestHandler):
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         port = tornado.options.options.port
-        self.render('./templates/index.html', port=port)
+        self.render('./templates/index.html')
 
 
 # application settings and handle mapping info
